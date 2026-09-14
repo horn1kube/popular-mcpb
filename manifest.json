@@ -10,7 +10,6 @@
     "email": "ilinnikita600@gmail.com"
   },
   "license": "MIT",
-  "icon": "icon.png",
   "keywords": ["clickhouse", "database", "sql", "mcp"],
   "server": {
     "type": "binary",

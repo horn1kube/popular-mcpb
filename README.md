@@ -8,11 +8,15 @@
 ```
 mcp-clickhouse-mcpb/
 ├── manifest.json     # описание расширения, статические env и поля креденшиалов
-├── icon.png           # иконка расширения (512×512, сгенерирована из clickhouse.svg)
-├── clickhouse.svg      # исходник иконки (в .mcpb не попадает)
-├── .mcpbignore        # список файлов, которые не нужно паковать (clickhouse.svg)
+├── .mcpbignore        # список файлов, которые не нужно паковать (README.md)
 └── mcp-clickhouse-mcpb.mcpb  # собранный пакет — то, что устанавливается в Claude
 ```
+
+> Иконку (логотип ClickHouse) не используем — она принадлежит ClickHouse Inc. и
+> её использование в стороннем расширении нарушает права на товарный знак. Поле
+> `icon` в `manifest.json` не задано, Claude Desktop покажет расширение с
+> иконкой по умолчанию. Если нужна своя иконка — используйте собственную
+> графику, а не официальный логотип ClickHouse.
 
 ## Требования
 
@@ -88,29 +92,6 @@ mcpb pack .
 1. добавить поле в `user_config` (`type`, `title`, `description`, `required`/`sensitive`/`default`);
 2. сослаться на него в `server.mcp_config.env` как `"VAR": "${user_config.новый_ключ}"`;
 3. пересобрать пакет.
-
-### Иконка
-
-Файл `icon.png`, путь на него — `manifest.json → icon`. Рекомендуемый размер —
-512×512, формат PNG (SVG для поля `icon` не поддерживается спецификацией).
-
-Перегенерировать из SVG (если меняли `clickhouse.svg`):
-
-```powershell
-npx --yes resvg-cli --fit-width 512 clickhouse.svg icon.png
-```
-
-Если получившееся изображение не квадратное (зависит от `viewBox` исходного SVG),
-нужно доцентрировать его на прозрачном квадратном холсте — например через Pillow:
-
-```python
-from PIL import Image
-im = Image.open("icon.png").convert("RGBA")
-size = 512
-canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-canvas.paste(im, ((size - im.width) // 2, (size - im.height) // 2), im)
-canvas.save("icon.png")
-```
 
 ## Установка в Claude Desktop
 
