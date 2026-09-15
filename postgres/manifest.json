@@ -2,9 +2,9 @@
   "manifest_version": "0.3",
   "name": "postgres-mcp",
   "display_name": "PostgreSQL MCP",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP-сервер для подключения к PostgreSQL (пакет postgres-mcp, restricted-режим, запускается через uvx).",
-  "long_description": "Подключает Claude к PostgreSQL через сервер postgres-mcp (Postgres MCP Pro): индексный тюнинг, explain-планы, health-check'и и безопасное выполнение SQL. Сервер запускается командой `uvx --python=3.12 --with \"mcp<2\" postgres-mcp --access-mode=restricted`, поэтому на машине должен быть установлен uv (https://docs.astral.sh/uv/). Пакет `mcp<2` зафиксирован явно, потому что postgres-mcp ещё не совместим с mcp 2.x (там убрали FastMCP), а без пина `uvx` тянет последнюю версию mcp и падает с ModuleNotFoundError. Строка подключения (DATABASE_URI) вводится пользователем через настройки расширения в Claude и не хранится в самом расширении.",
+  "long_description": "Подключает Claude к PostgreSQL через сервер postgres-mcp (Postgres MCP Pro): индексный тюнинг, explain-планы, health-check'и и безопасное выполнение SQL. Сервер запускается командой `uvx --python=3.12 --with \"mcp<2\" postgres-mcp --access-mode=restricted`, поэтому на машине должен быть установлен uv (https://docs.astral.sh/uv/). Пакет `mcp<2` зафиксирован явно, потому что postgres-mcp ещё не совместим с mcp 2.x (там убрали FastMCP), а без пина `uvx` тянет последнюю версию mcp и падает с ModuleNotFoundError. Строка подключения DATABASE_URI собирается из отдельных полей (host/port/database/user/password) — пароль вводится пользователем через настройки расширения в Claude как отдельное sensitive-поле и не хранится в самом расширении. Поля разведены намеренно: если положить весь connection string (`user:pass@host`) в одно sensitive-поле, на Windows подстановка иногда возвращает только логин вместо полной строки — это подтверждённый баг подстановки sensitive-значений в Claude Desktop, а не проблема postgres-mcp.",
   "author": {
     "name": "na.ilin",
     "email": "ilinnikita600@gmail.com"
@@ -29,7 +29,7 @@
         "--access-mode=restricted"
       ],
       "env": {
-        "DATABASE_URI": "${user_config.database_uri}"
+        "DATABASE_URI": "postgresql://${user_config.postgres_user}:${user_config.postgres_password}@${user_config.postgres_host}:${user_config.postgres_port}/${user_config.postgres_database}"
       }
     }
   },
@@ -40,10 +40,35 @@
     }
   },
   "user_config": {
-    "database_uri": {
+    "postgres_host": {
       "type": "string",
-      "title": "Database URI",
-      "description": "Строка подключения к PostgreSQL, например postgresql://username:password@hostname:6432/dbname",
+      "title": "PostgreSQL Host",
+      "description": "Адрес хоста PostgreSQL (например, rc1d-xxxxxxxxxxxxxxxx.mdb.yandexcloud.net)",
+      "required": true
+    },
+    "postgres_port": {
+      "type": "number",
+      "title": "PostgreSQL Port",
+      "description": "Порт подключения к PostgreSQL",
+      "default": 6432,
+      "required": true
+    },
+    "postgres_database": {
+      "type": "string",
+      "title": "Database",
+      "description": "Имя базы данных",
+      "required": true
+    },
+    "postgres_user": {
+      "type": "string",
+      "title": "PostgreSQL User",
+      "description": "Имя пользователя для подключения к PostgreSQL",
+      "required": true
+    },
+    "postgres_password": {
+      "type": "string",
+      "title": "PostgreSQL Password",
+      "description": "Пароль пользователя PostgreSQL",
       "sensitive": true,
       "required": true
     }
