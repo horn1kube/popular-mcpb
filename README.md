@@ -10,7 +10,7 @@ Desktop, включая форму для ввода кредов пользов
 |---|---|---|---|
 | [`atlassian/`](atlassian) | Jira + Confluence | [`mcp-atlassian`](https://github.com/sooperset/mcp-atlassian) | `uvx mcp-atlassian` |
 | [`clickhouse/`](clickhouse) | ClickHouse | [`mcp-clickhouse`](https://github.com/ClickHouse/mcp-clickhouse) | `uv run --with mcp-clickhouse ... mcp-clickhouse` |
-| [`postgres/`](postgres) | PostgreSQL | [`postgres-mcp`](https://github.com/crystaldba/postgres-mcp) | `uvx --python=3.12 postgres-mcp --access-mode=restricted` |
+| [`postgres/`](postgres) | PostgreSQL | [`postgres-mcp`](https://github.com/crystaldba/postgres-mcp) | `uvx --python=3.12 --with "mcp<2" postgres-mcp --access-mode=restricted` |
 
 Каждая папка — самодостаточный пакет: сейчас в ней лежит только `manifest.json`
 (без исходников и зависимостей), потому что сам MCP-сервер каждый раз
