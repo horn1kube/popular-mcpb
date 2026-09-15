@@ -35,8 +35,6 @@ popular-mcpb/
 иконка и файлы сервера). Собирать нужно из папки нужного пакета — это даёт
 файл `<name>-<version>.mcpb`.
 
-### Вариант 1 (рекомендуется) — через CLI `mcpb`
-
 Разово, без установки, для конкретного пакета:
 
 ```powershell
@@ -66,25 +64,6 @@ npx --yes @anthropic-ai/mcpb pack .
 
 `npm`/`npx` (Node.js) нужны **только на машине, где собирается пакет** — на
 машине конечного пользователя Node.js не требуется.
-
-### Вариант 2 — без сборки, просто ZIP
-
-Раз `.mcpb` — это ZIP-архив с `manifest.json` внутри, а в обоих пакетах этого
-репозитория нет ничего, кроме манифеста, собирать через CLI необязательно.
-Можно просто заархивировать папку пакета и переименовать расширение файла —
-Node.js/npm/CLI для этого вообще не нужны:
-
-```powershell
-cd atlassian
-Compress-Archive -Path manifest.json -DestinationPath mcp-atlassian.zip
-Rename-Item mcp-atlassian.zip mcp-atlassian.mcpb
-```
-
-Разница с Вариантом 1 в том, что CLI ещё и валидирует `manifest.json` по схеме
-перед упаковкой — при ручном ZIP этой проверки нет, поэтому если Claude
-Desktop откажется ставить такой файл, стоит свериться со схемой манифеста
-(https://github.com/modelcontextprotocol/mcpb/blob/main/MANIFEST.md) или
-пересобрать через `mcpb pack`.
 
 ## Установка в Claude Desktop
 
