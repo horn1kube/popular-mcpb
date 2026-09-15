@@ -1,0 +1,85 @@
+{
+  "manifest_version": "0.3",
+  "name": "mcp-atlassian-new",
+  "display_name": "MCP Atlassian",
+  "version": "0.23.1",
+  "description": "Connect Jira and Confluence to AI assistants via the Model Context Protocol",
+  "long_description": "Bridges Atlassian's Jira and Confluence with AI assistants that support MCP. Search, read, and (unless read-only mode is enabled) create and update issues, pages, and comments across both Cloud and Server/Data Center deployments using API token, personal access token, or OAuth 2.0 authentication.",
+  "author": {
+    "name": "sooperset",
+    "email": "soomiles.dev@gmail.com",
+    "url": "https://github.com/sooperset"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sooperset/mcp-atlassian.git"
+  },
+  "homepage": "https://github.com/sooperset/mcp-atlassian",
+  "documentation": "https://mcp-atlassian.soomiles.com",
+  "support": "https://github.com/sooperset/mcp-atlassian/issues",
+  "keywords": ["jira", "confluence", "atlassian", "mcp"],
+  "license": "MIT",
+  "server": {
+    "type": "binary",
+    "entry_point": "uvx",
+    "mcp_config": {
+      "command": "uvx",
+      "args": ["mcp-atlassian"],
+      "env": {
+        "JIRA_URL": "${user_config.jira_url}",
+        "JIRA_USERNAME": "${user_config.jira_username}",
+        "JIRA_API_TOKEN": "${user_config.jira_api_token}",
+        "CONFLUENCE_URL": "${user_config.confluence_url}",
+        "CONFLUENCE_USERNAME": "${user_config.confluence_username}",
+        "CONFLUENCE_API_TOKEN": "${user_config.confluence_api_token}"
+      }
+    }
+  },
+  "tools_generated": true,
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "python": ">=3.10"
+    }
+  },
+  "user_config": {
+    "jira_url": {
+      "type": "string",
+      "title": "Jira URL",
+      "description": "Your Jira instance URL, e.g. https://your-company.atlassian.net (Cloud) or https://jira.your-domain.com (Server/DC)",
+      "required": false
+    },
+    "jira_username": {
+      "type": "string",
+      "title": "Jira Username",
+      "description": "Your Atlassian account email (Cloud) or Server/DC username",
+      "required": false
+    },
+    "jira_api_token": {
+      "type": "string",
+      "title": "Jira API Token",
+      "description": "API token from https://id.atlassian.com/manage-profile/security/api-tokens (Cloud), or your password for Server/DC basic auth",
+      "sensitive": true,
+      "required": false
+    },
+    "confluence_url": {
+      "type": "string",
+      "title": "Confluence URL",
+      "description": "Your Confluence instance URL, e.g. https://your-company.atlassian.net/wiki (Cloud) or https://confluence.your-domain.com (Server/DC)",
+      "required": false
+    },
+    "confluence_username": {
+      "type": "string",
+      "title": "Confluence Username",
+      "description": "Your Atlassian account email (Cloud) or Server/DC username",
+      "required": false
+    },
+    "confluence_api_token": {
+      "type": "string",
+      "title": "Confluence API Token",
+      "description": "API token from https://id.atlassian.com/manage-profile/security/api-tokens (Cloud), or your password for Server/DC basic auth",
+      "sensitive": true,
+      "required": false
+    }
+  }
+}
