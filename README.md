@@ -17,17 +17,6 @@ Desktop, включая форму для ввода кредов пользов
 на машине, где расширение *работает*, должен быть установлен **uv**:
 https://docs.astral.sh/uv/
 
-## Структура репозитория
-
-```
-popular-mcpb/
-├── atlassian/
-│   └── manifest.json
-├── clickhouse/
-│   └── manifest.json
-├── .mcpbignore
-└── README.md
-```
 
 ## Как собрать `.mcpb` для конкретного пакета
 
