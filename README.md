@@ -10,10 +10,11 @@ Desktop, включая форму для ввода кредов пользов
 |---|---|---|---|
 | [`atlassian/`](atlassian) | Jira + Confluence | [`mcp-atlassian`](https://github.com/sooperset/mcp-atlassian) | `uvx mcp-atlassian` |
 | [`clickhouse/`](clickhouse) | ClickHouse | [`mcp-clickhouse`](https://github.com/ClickHouse/mcp-clickhouse) | `uv run --with mcp-clickhouse ... mcp-clickhouse` |
+| [`postgres/`](postgres) | PostgreSQL | [`postgres-mcp`](https://github.com/crystaldba/postgres-mcp) | `uvx --python=3.12 postgres-mcp --access-mode=restricted` |
 
 Каждая папка — самодостаточный пакет: сейчас в ней лежит только `manifest.json`
-(без исходников и зависимостей), потому что сам MCP-сервер оба раза
-подтягивается и запускается на лету через `uv`/`uvx`. Поэтому у обоих пакетов
+(без исходников и зависимостей), потому что сам MCP-сервер каждый раз
+подтягивается и запускается на лету через `uv`/`uvx`. Поэтому у всех пакетов
 на машине, где расширение *работает*, должен быть установлен **uv**:
 https://docs.astral.sh/uv/
 
@@ -27,7 +28,7 @@ https://docs.astral.sh/uv/
 Разово, без установки, для конкретного пакета:
 
 ```powershell
-cd atlassian    # или cd clickhouse
+cd atlassian    # или cd clickhouse / cd postgres
 npx --yes @anthropic-ai/mcpb pack .
 ```
 
@@ -66,12 +67,13 @@ npx --yes @anthropic-ai/mcpb pack .
 
 Во всех трёх случаях Claude Desktop сам построит форму настроек по
 `user_config` из манифеста — там нужно будет заполнить URL/креды (Jira,
-Confluence, ClickHouse — в зависимости от пакета). Поля с `"sensitive": true`
-маскируются в UI и хранятся через нативное хранилище ОС (Keychain / Credential
-Manager / keyring), а не в открытом виде.
+Confluence, ClickHouse, PostgreSQL — в зависимости от пакета). Поля с
+`"sensitive": true` маскируются в UI и хранятся через нативное хранилище ОС
+(Keychain / Credential Manager / keyring), а не в открытом виде.
 
 Подробности per-пакетных `user_config` — прямо в соответствующем
-`manifest.json` (`atlassian/manifest.json`, `clickhouse/manifest.json`).
+`manifest.json` (`atlassian/manifest.json`, `clickhouse/manifest.json`,
+`postgres/manifest.json`).
 
 ## Как добавить новый пакет
 

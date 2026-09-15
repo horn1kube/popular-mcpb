@@ -1,0 +1,49 @@
+{
+  "manifest_version": "0.3",
+  "name": "postgres-mcp",
+  "display_name": "PostgreSQL MCP",
+  "version": "1.0.0",
+  "description": "MCP-сервер для подключения к PostgreSQL (пакет postgres-mcp, restricted-режим, запускается через uvx).",
+  "long_description": "Подключает Claude к PostgreSQL через сервер postgres-mcp (Postgres MCP Pro): индексный тюнинг, explain-планы, health-check'и и безопасное выполнение SQL. Сервер запускается командой `uvx --python=3.12 postgres-mcp --access-mode=restricted`, поэтому на машине должен быть установлен uv (https://docs.astral.sh/uv/). Строка подключения (DATABASE_URI) вводится пользователем через настройки расширения в Claude и не хранится в самом расширении.",
+  "author": {
+    "name": "na.ilin",
+    "email": "ilinnikita600@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crystaldba/postgres-mcp.git"
+  },
+  "homepage": "https://github.com/crystaldba/postgres-mcp",
+  "license": "MIT",
+  "keywords": ["postgres", "postgresql", "database", "sql", "mcp"],
+  "server": {
+    "type": "binary",
+    "entry_point": "uvx",
+    "mcp_config": {
+      "command": "uvx",
+      "args": [
+        "--python=3.12",
+        "postgres-mcp",
+        "--access-mode=restricted"
+      ],
+      "env": {
+        "DATABASE_URI": "${user_config.database_uri}"
+      }
+    }
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "python": ">=3.12"
+    }
+  },
+  "user_config": {
+    "database_uri": {
+      "type": "string",
+      "title": "Database URI",
+      "description": "Строка подключения к PostgreSQL, например postgresql://username:password@hostname:6432/dbname",
+      "sensitive": true,
+      "required": true
+    }
+  }
+}
